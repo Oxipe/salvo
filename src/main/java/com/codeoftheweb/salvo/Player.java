@@ -1,10 +1,9 @@
 package com.codeoftheweb.salvo;
 
 import org.hibernate.annotations.GenericGenerator;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class Player {
@@ -17,6 +16,11 @@ public class Player {
     private String userMail;
     private String userPassWord;
 
+    @OneToMany (mappedBy = "player", fetch = FetchType.EAGER)
+    private Set<GamePlayer> gamePlayers;
+
+    //Constructors
+
     public Player() { }
 
     public Player(String name, String mail, String passWord) {
@@ -25,31 +29,30 @@ public class Player {
         this.userPassWord = passWord;
     }
 
-    public String getUserName() {
-        return userName;
+    //Getters
+
+    public String getUserName() { return userName; }
+
+    public String getUserMail() { return userMail; }
+
+    //Setters
+
+    public void setUserName (String userName) { this.userName = userName; }
+
+    public void setUserMail (String userMail) { this.userMail = userMail; }
+
+    public void addPlayer (GamePlayer gamePlayer) {
+        gamePlayer.setPlayer(this);
+        gamePlayers.add(gamePlayer);
     }
 
-    public void setFirstName(String firstName) {
-        this.userName = firstName;
-    }
+    public Set<GamePlayer> getGames() { return gamePlayers; }
 
-    public String getUserMail() {
-        return userMail;
-    }
+    public void setLastName(String lastName) { this.userName = lastName; }
 
-    public void setLastName(String lastName) {
-        this.userName = lastName;
-    }
+    public String getUserPassWord() { return userPassWord; }
 
-    public String getUserPassWord() {
-        return userPassWord;
-    }
+    public void setUserPassWord(String passWord) { this.userPassWord = passWord; }
 
-    public void setUserPassWord(String passWord) {
-        this.userPassWord = passWord;
-    }
 
-    public String toString() {
-        return userName + " " + userName;
-    }
 }

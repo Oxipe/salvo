@@ -1,11 +1,10 @@
 package com.codeoftheweb.salvo;
 
 import org.hibernate.annotations.GenericGenerator;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+
+import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 public class Game {
@@ -17,11 +16,37 @@ public class Game {
     private Date date;
     private String gameName;
 
+    @OneToMany(mappedBy = "game", fetch = FetchType.EAGER)
+    private Set<GamePlayer> gamePlayers;
+
+
+    //Constructors
+
     public Game () {}
 
     public Game (String gameName) {
         this.date = new Date();
         this.gameName = gameName;
+    }
+
+    //Getters
+
+    public String getGameName() {
+        return gameName;
+    }
+
+    //Setters
+
+    public void setGameName(String gameName) {
+        this.gameName = gameName;
+    }
+
+
+
+
+    public void addGame (GamePlayer gamePlayer) {
+        gamePlayer.setGame(this);
+        gamePlayers.add(gamePlayer);
     }
 
     public Date getDate() {
@@ -33,15 +58,11 @@ public class Game {
         this.date = date;
     }
 
-    public String getGameName() {
-        return gameName;
-    }
-
-    public void setGameName(String gameName) {
-        this.gameName = gameName;
-    }
-
     public void addTime(Date date, Integer seconds) {
         setDate(Date.from(date.toInstant().plusSeconds(seconds)));
+    }
+
+    public Set<GamePlayer> getPlayers () {
+        return gamePlayers;
     }
 }
