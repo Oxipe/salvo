@@ -8,10 +8,6 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class SalvoApplication {
 
-
-
-
-
 	public static void main(String[] args) {
 		SpringApplication.run(SalvoApplication.class, args);
 
@@ -62,9 +58,12 @@ public class SalvoApplication {
 			GamePlayer gamePlayer4 = new GamePlayer(game4, player4, player2);
 
 			gamePlayerRepo.save(gamePlayer1);
-			gamePlayerRepo.save(gamePlayer1);
-			gamePlayerRepo.save(gamePlayer1);
-			gamePlayerRepo.save(gamePlayer1);
+			gamePlayerRepo.save(gamePlayer2);
+			gamePlayerRepo.save(gamePlayer3);
+			gamePlayerRepo.save(gamePlayer4);
+
+//			SalvoController salvoController = new SalvoController();
+//			System.out.println(salvoController.getAllGames());
 		};
 	}
 }

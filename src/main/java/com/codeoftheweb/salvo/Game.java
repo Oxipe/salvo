@@ -1,9 +1,11 @@
 package com.codeoftheweb.salvo;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -35,11 +37,13 @@ public class Game {
         return gameName;
     }
 
+    public Long getGameId() { return gameId; }
+
     //Setters
 
-    public void setGameName(String gameName) {
-        this.gameName = gameName;
-    }
+    public void setGameName(String gameName) { this.gameName = gameName; }
+
+    public void  setGameId(Long gameId) { this.gameId = gameId; }
 
 
 
@@ -62,7 +66,7 @@ public class Game {
         setDate(Date.from(date.toInstant().plusSeconds(seconds)));
     }
 
-    public Set<GamePlayer> getPlayers () {
+    public Set<GamePlayer> getGamePlayers () {
         return gamePlayers;
     }
 }
