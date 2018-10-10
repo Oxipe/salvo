@@ -23,19 +23,16 @@ public class GamePlayer {
     @JoinColumn (name = "game_id")
     private Player player;
 
-//    @ManyToOne (fetch = FetchType.EAGER)
-//    @JoinColumn (name = "game_id")
-//    private Player opponent;
-
     //Constructors
 
     public GamePlayer () {};
 
-    public GamePlayer (Game game, Player player, Player opponent) {
+    public GamePlayer (Game game, Player player) {
         this.game = game;
         this.player = player;
-        //this.opponent = opponent;
     }
+
+    //getters & setters
 
     public Long getId() {
         return Id;

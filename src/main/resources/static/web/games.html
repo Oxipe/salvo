@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+        <title>Games</title>
+    </head>
+
+    <body>
+        <div id="gameInfo">
+            <ol>
+                <li v-for="game in games">
+                    <p>Game Name:</p>
+                    <p>{{game.game_name}}</p>
+                    <p>Current players:</p>
+                    <p v-for="player in game.gamePlayers">{{player.player.user_name}}</p>
+                </li>
+            </ol>
+        </div>
+
+
+
+        <script src="scripts/games.js"></script>
+    </body>
+</html>

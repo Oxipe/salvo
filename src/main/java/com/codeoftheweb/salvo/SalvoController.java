@@ -12,19 +12,38 @@ import static java.util.stream.Collectors.toList;
 public class SalvoController {
 
     @Autowired
-    private GameRepository gameRepository;
+    private GameRepository gameRepo;
+    private PlayerRepository playerRepo;
+    private GamePlayerRepository gameplayerRepo;
 
     @RequestMapping("/game_id")
     public List<Object> getAllGames() {
-        System.out.println(gameRepository);
-        System.out.println(gameRepository.findAll());
-        return gameRepository.findAll().stream().map(game -> makeGameDTO(game)).collect(toList());
-
+        return gameRepo.findAll().stream().map(game -> makeGameDTO(game)).collect(toList());
     }
 
     private Map<String, Object> makeGameDTO (Game game) {
         Map<String, Object> dto = new LinkedHashMap<>();
         dto.put("id", game.getGameId());
+        dto.put("created", game.getDate().getTime());
+        dto.put("game_name", game.getGameName());
+        dto.put("gamePlayers", game.getGamePlayers().stream().map(gamePlayer -> makeGamePlayerDTO(gamePlayer)).collect(toList()));
+
+        return dto;
+    }
+
+    private Map<String, Object> makeGamePlayerDTO(GamePlayer gamePlayer) {
+        Map<String, Object> dto = new LinkedHashMap<>();
+        dto.put("id", gamePlayer.getId());
+        dto.put("player", makePlayerDTO(gamePlayer.getPlayer()));
+
+        return dto;
+    }
+
+    private Map<String, Object> makePlayerDTO(Player player) {
+        Map<String, Object> dto = new LinkedHashMap<>();
+        dto.put("id", player.getUserId());
+        dto.put("user_name", player.getUserName());
+
         return dto;
     }
 }

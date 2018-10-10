@@ -1,11 +1,9 @@
 package com.codeoftheweb.salvo;
 
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -19,8 +17,7 @@ public class Game {
     private String gameName;
 
     @OneToMany(mappedBy = "game", fetch = FetchType.EAGER)
-    private Set<GamePlayer> gamePlayers;
-
+    Set<GamePlayer> gamePlayers;
 
     //Constructors
 
@@ -31,27 +28,17 @@ public class Game {
         this.gameName = gameName;
     }
 
-    //Getters
+    //Getters & setters
 
     public String getGameName() {
         return gameName;
     }
 
-    public Long getGameId() { return gameId; }
-
-    //Setters
-
     public void setGameName(String gameName) { this.gameName = gameName; }
 
+    public Long getGameId() { return gameId; }
+
     public void  setGameId(Long gameId) { this.gameId = gameId; }
-
-
-
-
-    public void addGame (GamePlayer gamePlayer) {
-        gamePlayer.setGame(this);
-        gamePlayers.add(gamePlayer);
-    }
 
     public Date getDate() {
         return date;
@@ -62,11 +49,19 @@ public class Game {
         this.date = date;
     }
 
+    public Set<GamePlayer> getGamePlayers () {
+        return gamePlayers;
+    }
+
+    //Methods
+
+    public void addGame (GamePlayer gamePlayer) {
+        gamePlayer.setGame(this);
+        gamePlayers.add(gamePlayer);
+    }
+
     public void addTime(Date date, Integer seconds) {
         setDate(Date.from(date.toInstant().plusSeconds(seconds)));
     }
 
-    public Set<GamePlayer> getGamePlayers () {
-        return gamePlayers;
-    }
 }
