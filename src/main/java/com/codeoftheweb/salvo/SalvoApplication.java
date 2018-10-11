@@ -29,9 +29,6 @@ public class SalvoApplication {
 			String destroyer 	= "Destroyer";
 			String patrolBoat 	= "Patrol Boat";
 
-
-
-
 			//Creating players and saving into repository
 			Player player1 = new Player("Jack", "j.bauer@ctu.gov", "24");
 			Player player2 = new Player("Chloe", "c.obrian@ctu.gov", "42");
@@ -72,15 +69,15 @@ public class SalvoApplication {
 			gameRepo.save(game8);
 
 			//Creating gameplayers and saving into repository
-			GamePlayer gamePlayer1 = new GamePlayer(game1, player1);
-			GamePlayer gamePlayer2 = new GamePlayer(game1, player2);
-			GamePlayer gamePlayer3 = new GamePlayer(game2, player1);
-			GamePlayer gamePlayer4 = new GamePlayer(game2, player2);
-			GamePlayer gamePlayer5 = new GamePlayer(game3, player2);
-			GamePlayer gamePlayer6 = new GamePlayer(game3, player4);
-			GamePlayer gamePlayer7 = new GamePlayer(game4, player2);
-			GamePlayer gamePlayer8 = new GamePlayer(game4, player1);
-			GamePlayer gamePlayer9 = new GamePlayer(game5, player4);
+			GamePlayer gamePlayer1  = new GamePlayer(game1, player1);
+			GamePlayer gamePlayer2  = new GamePlayer(game1, player2);
+			GamePlayer gamePlayer3  = new GamePlayer(game2, player1);
+			GamePlayer gamePlayer4  = new GamePlayer(game2, player2);
+			GamePlayer gamePlayer5  = new GamePlayer(game3, player2);
+			GamePlayer gamePlayer6  = new GamePlayer(game3, player4);
+			GamePlayer gamePlayer7  = new GamePlayer(game4, player2);
+			GamePlayer gamePlayer8  = new GamePlayer(game4, player1);
+			GamePlayer gamePlayer9  = new GamePlayer(game5, player4);
 			GamePlayer gamePlayer10 = new GamePlayer(game5, player1);
 			GamePlayer gamePlayer11 = new GamePlayer(game6, player3);
 			GamePlayer gamePlayer12 = new GamePlayer(game7, player4);

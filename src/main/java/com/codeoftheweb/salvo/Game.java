@@ -16,7 +16,7 @@ public class Game {
     private Date date;
     private String gameName;
 
-    @OneToMany(mappedBy = "player", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "game", fetch = FetchType.EAGER)
     Set<GamePlayer> gamePlayers;
 
     //Constructors
