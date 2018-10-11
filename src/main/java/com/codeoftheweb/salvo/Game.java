@@ -12,11 +12,11 @@ public class Game {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
-    private Long gameId;
+    private Long id;
     private Date date;
     private String gameName;
 
-    @OneToMany(mappedBy = "game", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "player", fetch = FetchType.EAGER)
     Set<GamePlayer> gamePlayers;
 
     //Constructors
@@ -36,9 +36,7 @@ public class Game {
 
     public void setGameName(String gameName) { this.gameName = gameName; }
 
-    public Long getGameId() { return gameId; }
-
-    public void  setGameId(Long gameId) { this.gameId = gameId; }
+    public Long getId() { return id; }
 
     public Date getDate() {
         return date;

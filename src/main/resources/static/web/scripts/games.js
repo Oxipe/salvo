@@ -1,6 +1,6 @@
 
 
-$.getJSON("/api/game_id")
+$.getJSON("/api/games")
     .done(function (data) {
         gameInfo.games = data;
         console.log(data);
@@ -8,12 +8,6 @@ $.getJSON("/api/game_id")
     .catch(function(error) {
         console.log("Error: " + error);
     });
-
-
-
-function myFunction(data) {
-    console.log(data);
-}
 
 var gameInfo = new Vue({
     el: "#gameInfo",
