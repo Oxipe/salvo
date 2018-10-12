@@ -1,0 +1,23 @@
+
+.player_grid {
+    height: 400px;
+    width: 400px;
+}
+
+
+.grid_cell {
+    height: 30px;
+    width: 30px;
+}
+
+
+.player_grid td {
+    border: 1px solid black;
+}
+
+/*border and background color is temporary*/
+.cell_with_ship {
+    padding: 2px;
+    background-color: teal;
+    border: 2px solid white;
+}

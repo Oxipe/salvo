@@ -23,11 +23,10 @@ public class SalvoController {
         return gameRepo.findAll().stream().map(game -> makeGameDTO(game)).collect(toList());
     }
 
-    @RequestMapping("/game_view/{id}")
+    @RequestMapping("/gp/{id}")
     public Map<String, Object> getGameView (@PathVariable("id") Long id) {
         return makeGameViewDTO(gameplayerRepo.getOne(id).getGame(), id);
     }
-
 
     private Map<String, Object> makeGameDTO (Game game) {
         Map<String, Object> dto = new LinkedHashMap<>();
