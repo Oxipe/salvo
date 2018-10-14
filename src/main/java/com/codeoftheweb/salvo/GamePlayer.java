@@ -3,9 +3,7 @@ package com.codeoftheweb.salvo;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -29,6 +27,9 @@ public class GamePlayer {
 
     @OneToMany(mappedBy = "gamePlayer", fetch = FetchType.EAGER)
     private Set<Ship> ship;
+
+    @OneToMany(mappedBy = "gamePlayer", fetch = FetchType.EAGER)
+    private Set<Salvo> salvos;
 
 
     //Constructors
@@ -65,6 +66,8 @@ public class GamePlayer {
     public Set<Ship> getShips () {
         return ship;
     }
+
+    //public Set<Salvo> getSalvos () {return salvos; }
 
 
     public Player getPlayer() {
