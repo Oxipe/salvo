@@ -1,9 +1,9 @@
 package com.codeoftheweb.salvo;
-
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Ship {
@@ -54,12 +54,5 @@ public class Ship {
     public void setLocations(List<String> locations) {
         this.locations = locations;
     }
-
-    public GamePlayer getGamePlayer() {
-        return gamePlayer;
-    }
-
-    public void setGamePlayer(GamePlayer gamePlayer) {
-        this.gamePlayer = gamePlayer;
-    }
 }
+

@@ -43,7 +43,6 @@ public class Game {
     }
 
     public void setDate(Date date) {
-        System.out.println("setDate: " + date);
         this.date = date;
     }
 

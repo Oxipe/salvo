@@ -67,7 +67,7 @@ public class GamePlayer {
         return ship;
     }
 
-    //public Set<Salvo> getSalvos () {return salvos; }
+    public Set<Salvo> getSalvos () {return salvos; }
 
 
     public Player getPlayer() {
@@ -77,9 +77,4 @@ public class GamePlayer {
     public void setPlayer(Player player) {
         this.player = player;
     }
-
-
-
-
-
 }

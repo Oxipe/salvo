@@ -17,6 +17,8 @@ public class SalvoController {
     private PlayerRepository playerRepo;
     @Autowired
     private GamePlayerRepository gameplayerRepo;
+    @Autowired
+    private SalvoRepository salvoRepo;
 
     @RequestMapping("/games")
     public List<Object> getAllGames() {
@@ -60,6 +62,16 @@ public class SalvoController {
         dto.put("created", game.getDate().getTime());
         dto.put("gamePlayers", game.getGamePlayers().stream().map(gamePlayer -> makeGamePlayerDTO(gamePlayer)).collect(toList()));
         dto.put("ships", game.getGamePlayers().stream().filter(gamePlayer -> gamePlayer.getId() == id).findFirst().map(gamePlayer -> gamePlayer.getShips()).get());
+        dto.put("salvoes", game.getGamePlayers().stream().filter(gamePlayer -> gamePlayer.getId() == id).findFirst().get().getSalvos().stream().map(salvo -> makeSalvoDTO(salvo)).collect(toList()));
+
+        return dto;
+    }
+
+    private Map<String, Object> makeSalvoDTO(Salvo salvo) {
+        Map<String, Object> dto = new LinkedHashMap<>();
+        dto.put("turn", salvo.getTurn());
+        dto.put("player", salvo.getPlayerId());
+        dto.put("locations", salvo.getLocations());
 
         return dto;
     }

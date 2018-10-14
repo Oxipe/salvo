@@ -220,31 +220,31 @@ public class SalvoApplication {
 			List<String> salvoLocation20 = Arrays.asList("C6", "D6", "E6");
 			List<String> salvoLocation21 = Arrays.asList("H1", "h8");
 
-            Salvo salvo1 = new Salvo(1, gamePlayer1, salvoLocation1);
-            Salvo salvo2 = new Salvo(1, gamePlayer1, salvoLocation2);
-            Salvo salvo3 = new Salvo(2, gamePlayer1, salvoLocation3);
-            Salvo salvo4 = new Salvo(2, gamePlayer1, salvoLocation4);
+            Salvo salvo1 = new Salvo(1, gamePlayer1, player1.getId(), salvoLocation1);
+            Salvo salvo2 = new Salvo(1, gamePlayer1, player2.getId(), salvoLocation2);
+            Salvo salvo3 = new Salvo(2, gamePlayer1, player1.getId(), salvoLocation3);
+            Salvo salvo4 = new Salvo(2, gamePlayer1, player2.getId(), salvoLocation4);
 
-            Salvo salvo5 = new Salvo(1, gamePlayer2, salvoLocation5);
-            Salvo salvo6 = new Salvo(1, gamePlayer2, salvoLocation6);
-            Salvo salvo7 = new Salvo(2, gamePlayer2, salvoLocation7);
-            Salvo salvo8 = new Salvo(2, gamePlayer2, salvoLocation8);
+            Salvo salvo5 = new Salvo(1, gamePlayer2, player1.getId(), salvoLocation5);
+            Salvo salvo6 = new Salvo(1, gamePlayer2, player2.getId(), salvoLocation6);
+            Salvo salvo7 = new Salvo(2, gamePlayer2, player1.getId(), salvoLocation7);
+            Salvo salvo8 = new Salvo(2, gamePlayer2, player2.getId(), salvoLocation8);
 
-            Salvo salvo9 = new Salvo(1, gamePlayer3, salvoLocation9);
-            Salvo salvo10 = new Salvo(1, gamePlayer3, salvoLocation10);
-            Salvo salvo11 = new Salvo(2, gamePlayer3, salvoLocation11);
-            Salvo salvo12 = new Salvo(2, gamePlayer3, salvoLocation12);
+            Salvo salvo9 = new Salvo(1, gamePlayer3, player2.getId(), salvoLocation9);
+            Salvo salvo10 = new Salvo(1, gamePlayer3, player4.getId(), salvoLocation10);
+            Salvo salvo11 = new Salvo(2, gamePlayer3, player2.getId(), salvoLocation11);
+            Salvo salvo12 = new Salvo(2, gamePlayer3, player4.getId(), salvoLocation12);
 
-            Salvo salvo13 = new Salvo(1, gamePlayer4, salvoLocation13);
-            Salvo salvo14 = new Salvo(1, gamePlayer4, salvoLocation14);
-            Salvo salvo15 = new Salvo(2, gamePlayer4, salvoLocation15);
-            Salvo salvo16 = new Salvo(2, gamePlayer4, salvoLocation16);
+            Salvo salvo13 = new Salvo(1, gamePlayer4, player2.getId(), salvoLocation13);
+            Salvo salvo14 = new Salvo(1, gamePlayer4, player1.getId(), salvoLocation14);
+            Salvo salvo15 = new Salvo(2, gamePlayer4, player2.getId(), salvoLocation15);
+            Salvo salvo16 = new Salvo(2, gamePlayer4, player1.getId(), salvoLocation16);
 
-            Salvo salvo17 = new Salvo(1, gamePlayer5, salvoLocation17);
-            Salvo salvo18 = new Salvo(1, gamePlayer5, salvoLocation18);
-            Salvo salvo19 = new Salvo(2, gamePlayer5, salvoLocation19);
-            Salvo salvo20 = new Salvo(2, gamePlayer5, salvoLocation20);
-            Salvo salvo21 = new Salvo(3, gamePlayer3, salvoLocation21);
+            Salvo salvo17 = new Salvo(1, gamePlayer5, player4.getId(), salvoLocation17);
+            Salvo salvo18 = new Salvo(1, gamePlayer5, player1.getId(), salvoLocation18);
+            Salvo salvo19 = new Salvo(2, gamePlayer5, player4.getId(), salvoLocation19);
+            Salvo salvo20 = new Salvo(2, gamePlayer5, player1.getId(), salvoLocation20);
+            Salvo salvo21 = new Salvo(3, gamePlayer3, player1.getId(), salvoLocation21);
 
             salvoRepo.save(salvo1);
             salvoRepo.save(salvo2);
