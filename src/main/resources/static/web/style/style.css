@@ -1,5 +1,6 @@
 
-.player_grid {
+.player_grid,
+.opponent_grid {
     height: 400px;
     width: 400px;
 }
@@ -11,13 +12,20 @@
 }
 
 
-.player_grid td {
+.player_grid td,
+.opponent_grid td {
     border: 1px solid black;
 }
 
 /*border and background color is temporary*/
 .cell_with_ship {
-    padding: 2px;
     background-color: teal;
-    border: 2px solid white;
+}
+
+.cell_hit {
+    background-color: darkred;
+}
+
+.cell_miss {
+    background-color: forestgreen;
 }

@@ -199,7 +199,7 @@ public class SalvoApplication {
 			shipRepo.save(ship27);
 
 			List<String> salvoLocation1 = Arrays.asList("B5", "C5", "F1");
-			List<String> salvoLocation2 = Arrays.asList("B4", "B5", "B6");
+			List<String> salvoLocation2 = Arrays.asList("B4", "A1", "B6");
 			List<String> salvoLocation3 = Arrays.asList("F2", "D5");
 			List<String> salvoLocation4 = Arrays.asList("E1", "H3", "A2");
 			List<String> salvoLocation5 = Arrays.asList("A2", "A4", "G6");
