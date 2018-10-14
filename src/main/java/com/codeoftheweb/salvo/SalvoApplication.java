@@ -21,7 +21,8 @@ public class SalvoApplication {
 									   GameRepository gameRepo,
 									   GamePlayerRepository gamePlayerRepo,
 									   ShipRepository shipRepo,
-                                       SalvoRepository salvoRepo) {
+                                       SalvoRepository salvoRepo,
+                                       ScoreRepository scoreRepo) {
 		return args -> {
 			//Variables
 			String carrier 		= "Carrier";
@@ -267,6 +268,16 @@ public class SalvoApplication {
             salvoRepo.save(salvo19);
             salvoRepo.save(salvo20);
             salvoRepo.save(salvo21);
+
+            Score score1 = new Score(game1, player1, 1.0);
+            Score score2 = new Score(game2, player1, 0.5);
+            Score score3 = new Score(game3, player2, 1.0);
+            Score score4 = new Score(game4, player2, 0.5);
+
+            scoreRepo.save(score1);
+            scoreRepo.save(score2);
+            scoreRepo.save(score3);
+            scoreRepo.save(score4);
 		};
 	}
 }

@@ -16,8 +16,9 @@
         
         <div id="gameInterface">
             <p>{{player.user_name}} vs {{opponent.user_name}}</p>
-            <p>Turn: {{currentTurn}}</p>
-            <button v-on:click="increaseTurn()">Turn up</button>
+            <button v-if="!hasStarted" v-on:click="start()">Start</button>
+            <p v-if="hasStarted">Turn: {{currentTurn}}</p>
+            <button v-if="hasStarted" v-on:click="increaseTurn()">Turn up</button>
             <p>Grid of {{player.user_name}}</p>
             <table class="player_grid" id="player"></table>
             <p>Grid of {{opponent.user_name}}</p>

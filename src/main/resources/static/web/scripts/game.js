@@ -10,7 +10,6 @@ function fetchGameplayData() {
             gameOverview.playerData = data;
             gameOverview.fillInterface();
             gameOverview.placeShips();
-            gameOverview.placeSalvos();
         })
         .catch(function (error) {
             console.log("Error: " + error);
@@ -20,6 +19,9 @@ function fetchGameplayData() {
 var gameOverview = new Vue({
     el: "#gameInterface",
     created: function () {
+        //Temp variable, will be removed when things go automatic
+        this.hasStarted = false;
+
         createEmptyGrid("player");
         createEmptyGrid("opponent");
     },
@@ -27,6 +29,8 @@ var gameOverview = new Vue({
         playerData: [],
         player: "",
         opponent: "",
+        //Temp variable, will be removed when things go automatic
+        hasStarted: false,
         //Temp variable, will be removed when things go automatic
         currentTurn: 1
     },
@@ -64,6 +68,11 @@ var gameOverview = new Vue({
                     }
                 }
             }
+        },
+        //Temp function, will be removed when things go automatic
+        start: function () {
+            this.placeSalvos();
+            this.hasStarted = true;
         },
         //Temp function, will be removed when things go automatic
         increaseTurn: function () {

@@ -36,6 +36,7 @@ public class SalvoController {
         dto.put("created", game.getDate().getTime());
         dto.put("game_name", game.getGameName());
         dto.put("gamePlayers", game.getGamePlayers().stream().map(gamePlayer -> makeGamePlayerDTO(gamePlayer)).collect(toList()));
+        dto.put("score", game.getScore().stream().map(score -> makeScoreDTO(score)).collect(toList()));
 
         return dto;
     }
@@ -73,6 +74,18 @@ public class SalvoController {
         dto.put("player", salvo.getPlayerId());
         dto.put("locations", salvo.getLocations());
 
+        return dto;
+    }
+
+    private Map<String, Object> makeScoreDTO(Score score) {
+        Map<String, Object> dto = new LinkedHashMap<>();
+        dto.put("score", score.getScore());
+        System.out.println(score.getScore());
+        if (score.getScore() == 0.5) {
+            dto.put("players", score.getGame().getGamePlayers().stream().map(gamePlayer -> gamePlayer.getPlayer().getUserName()));
+        } else {
+            dto.put("winner", score.getPlayer().getUserName());
+        }
         return dto;
     }
 
