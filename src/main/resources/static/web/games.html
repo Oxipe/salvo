@@ -21,6 +21,29 @@
             </ol>
         </div>
 
+        <div id="scoreInfo">
+            <table id="scoreTable">
+                <thead>
+                    <tr>
+                        <td class="table_header">Player</td>
+                        <td class="table_header">Score</td>
+                        <td class="table_header">Wins</td>
+                        <td class="table_header">Loses</td>
+                        <td class="table_header">Ties</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="score in scores">
+                        <td class="table_cell">{{score.player}}</td>
+                        <td class="table_cell">{{score.points}}</td>
+                        <td class="table_cell">{{score.wins}}</td>
+                        <td class="table_cell">{{score.loses}}</td>
+                        <td class="table_cell">{{score.ties}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
 
 
         <script src="scripts/games.js"></script>

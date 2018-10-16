@@ -51,19 +51,22 @@ var gameOverview = new Vue({
         },
         placeSalvos: function () {
             var salvos = this.playerData.salvoes;
-
+            var cell;
+            //reconstruct to check on id instead of class
             for (var i = 0; i < salvos.length; i++) {
                 if (salvos[i].turn === this.currentTurn) {
                     for (var j = 0; j < salvos[i].locations.length; j++) {
-                        var cellPlayer = document.getElementById("player" + salvos[i].locations[j]);
-                        var cellOpponent = document.getElementById("opponent" + salvos[i].locations[j]);
+                        if (this.playerData.gamePlayers[0].player.id === this.playerData.salvoes[i].player) {
+                            cell = document.getElementById("player" + this.playerData.salvoes[i].locations[j]);
+                            console.log(this.playerData.salvoes[i].locations[j])
 
-                        if (cellPlayer.className === "grid_cell cell_with_ship") {
-                            cellPlayer.setAttribute("class", "grid_cell cell_with_whip cell_hit");
-                            cellOpponent.setAttribute("class", "grid_cell cell_hit");
+                            cell.className === "grid_cell cell_with_ship" ? cell.setAttribute("class", "grid_cell cell_with_whip cell_hit") : cell.setAttribute("class", "grid_cell cell_miss");
                         } else {
-                            cellPlayer.setAttribute("class", "grid_cell cell_miss");
-                            cellOpponent.setAttribute("class", "grid_cell cell_miss");
+                            cell = document.getElementById("opponent" + this.playerData.salvoes[i].locations[j]);
+                            console.log(this.playerData.salvoes[i].locations[j])
+
+                            cell.className === "grid_cell cell_with_ship" ? cell.setAttribute("class", "grid_cell cell_with_whip cell_hit") : cell.setAttribute("class", "grid_cell cell_miss");
+
                         }
                     }
                 }

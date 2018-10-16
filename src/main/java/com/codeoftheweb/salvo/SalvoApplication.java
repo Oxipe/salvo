@@ -270,14 +270,22 @@ public class SalvoApplication {
             salvoRepo.save(salvo21);
 
             Score score1 = new Score(game1, player1, 1.0);
-            Score score2 = new Score(game2, player1, 0.5);
-            Score score3 = new Score(game3, player2, 1.0);
-            Score score4 = new Score(game4, player2, 0.5);
+            Score score2 = new Score(game1, player2, 0.0);
+            Score score3 = new Score(game2, player1, 0.5);
+            Score score4 = new Score(game2, player2, 0.5);
+            Score score5 = new Score(game3, player2, 1.0);
+            Score score6 = new Score(game3, player4, 0.0);
+            Score score7 = new Score(game4, player2, 0.5);
+            Score score8 = new Score(game4, player1, 0.5);
 
             scoreRepo.save(score1);
             scoreRepo.save(score2);
             scoreRepo.save(score3);
             scoreRepo.save(score4);
+            scoreRepo.save(score5);
+            scoreRepo.save(score6);
+            scoreRepo.save(score7);
+            scoreRepo.save(score8);
 		};
 	}
 }

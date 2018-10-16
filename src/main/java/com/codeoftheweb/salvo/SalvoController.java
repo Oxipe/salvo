@@ -3,6 +3,7 @@ package com.codeoftheweb.salvo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.*;
 
 import static java.util.stream.Collectors.toList;
@@ -19,6 +20,8 @@ public class SalvoController {
     private GamePlayerRepository gameplayerRepo;
     @Autowired
     private SalvoRepository salvoRepo;
+    @Autowired
+    private ScoreRepository scoreRepo;
 
     @RequestMapping("/games")
     public List<Object> getAllGames() {
@@ -36,7 +39,8 @@ public class SalvoController {
         dto.put("created", game.getDate().getTime());
         dto.put("game_name", game.getGameName());
         dto.put("gamePlayers", game.getGamePlayers().stream().map(gamePlayer -> makeGamePlayerDTO(gamePlayer)).collect(toList()));
-        dto.put("score", game.getScore().stream().map(score -> makeScoreDTO(score)).collect(toList()));
+        //You still need this?
+        //dto.put("score", game.getScore().stream().map(score -> makeScoreDTO(score)).collect(toList()));
 
         return dto;
     }
@@ -77,15 +81,51 @@ public class SalvoController {
         return dto;
     }
 
-    private Map<String, Object> makeScoreDTO(Score score) {
-        Map<String, Object> dto = new LinkedHashMap<>();
-        dto.put("score", score.getScore());
-        System.out.println(score.getScore());
-        if (score.getScore() == 0.5) {
-            dto.put("players", score.getGame().getGamePlayers().stream().map(gamePlayer -> gamePlayer.getPlayer().getUserName()));
-        } else {
-            dto.put("winner", score.getPlayer().getUserName());
+    @RequestMapping("/scores")
+    public List<Object> scoreList () {
+        List<Object> listOfScores = new ArrayList<>();
+        Map<String, Object> dto = new LinkedHashMap<>();;
+        List<String> listOfPlayers = new ArrayList<>();
+
+        for (long i = 1; i < playerRepo.findAll().size(); i++) {
+                listOfPlayers.add(playerRepo.getOne(i).getUserName());
         }
+
+        for (int j = 0; j < listOfPlayers.size(); j++) {
+            Double points = 0.0;
+            Integer wins = 0;
+            Integer loses = 0;
+            Integer ties = 0;
+
+            for(long k = 1; k <= scoreRepo.findAll().size(); k++) {
+
+                if (listOfPlayers.get(j) == scoreRepo.getOne(k).getPlayer().getUserName()) {
+                    if (scoreRepo.getOne(k).getScore() == 1.0) {
+                        wins++;
+                        points += 1.0;
+                    } else if (scoreRepo.getOne(k).getScore() == 0.5) {
+                        ties++;
+                        points += 0.5;
+                    } else {
+                        loses++;
+                    }
+                }
+            }
+
+            listOfScores.add(makeScoreDTO(listOfPlayers.get(j), points, wins, loses, ties));
+        }
+
+        return listOfScores;
+    }
+
+    private Map<String, Object> makeScoreDTO(String player, Double points, Integer wins, Integer loses, Integer ties) {
+        Map<String, Object> dto = new LinkedHashMap<>();
+        dto.put("player", player);
+        dto.put("points", points);
+        dto.put("wins", wins);
+        dto.put ("loses", loses);
+        dto.put("ties", ties);
+
         return dto;
     }
 
