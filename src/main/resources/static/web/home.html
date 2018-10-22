@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+        <title>My Game</title>
+    </head>
+    <body>
+        <form id="login-form" onsubmit="return false">
+            <label>Name: <input type="text" name="username"></label>
+            <label>Password: <input type="text" name="password"></label>
+        </form>
+
+
+
+        <form id="logout-form" onsubmit="return false">
+            <button onclick="logout()">Log out</button>
+        </form>
+
+
+        <script>
+            /*
+        function login(evt) {
+  evt.preventDefault();
+  var form = evt.target.form;
+            $.post("/app/web/home.html",
+                {
+                    name: form["username"].value,
+                    pwd: form["password"].value
+                })
+                .done(console.log("logged in"))
+                .fail(console.log("failed to log in"));
+}
+
+function logout(evt) {
+  evt.preventDefault();
+    $.post("/app/logout")
+        .done(console.log("logged out"))
+        .fail(console.log("failed to log out"));
+}
+            */
+            
+            fetch("/api/login", {
+                credentials: 'include',
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: 'userName=j.bauer@ctu.gov&userPassWord=24'
+                //body: 'userName=Jack&userMail=j.bauer@ctu.gov&password=24'
+            })
+                .then(r => {
+                    if (r.status === 200)
+                        console.log(r);
+                })
+                .catch(e => console.log(e));
+                
+        </script>
+    </body>
+</html>

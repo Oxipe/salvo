@@ -21,7 +21,7 @@ public class Score {
     @JoinColumn(name = "player_id")
     private Player player;
 
-    private Date finishDate;
+    private Long finishDate;
     private Double score;
 
     //Constructors
@@ -29,7 +29,7 @@ public class Score {
     public Score () {}
 
     public Score (Game game, Player player, Double score) {
-        this.finishDate = new Date();
+        this.finishDate = new Date().getTime();
         this.game = game;
         this.player = player;
         this.score = score;
@@ -58,11 +58,11 @@ public class Score {
         this.player = player;
     }
 
-    public Date getFinishDate() {
+    public Long getFinishDate() {
         return finishDate;
     }
 
-    public void setFinishDate(Date finishDate) {
+    public void setFinishDate(Long finishDate) {
         this.finishDate = finishDate;
     }
 

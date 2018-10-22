@@ -29,8 +29,5 @@ var scoreInfo = new Vue({
     el: "#scoreTable",
     data: {
         scores: []
-    },
-    methods: {
-
     }
 });

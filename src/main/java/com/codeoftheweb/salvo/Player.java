@@ -3,6 +3,8 @@ package com.codeoftheweb.salvo;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Set;
 
 @Entity
@@ -16,6 +18,11 @@ public class Player {
     private String userMail;
     private String userPassWord;
 
+    private Double points = 0.0;
+    private Integer wins = 0;
+    private Integer loses = 0;
+    private Integer ties = 0;
+
     @OneToMany (mappedBy = "player", fetch = FetchType.EAGER)
     private Set<GamePlayer> gamePlayers;
 
@@ -26,10 +33,10 @@ public class Player {
 
     public Player() { }
 
-    public Player(String name, String mail, String passWord) {
-        this.userName = name;
+    public Player(String userName, String mail, String userPassWord) {
+        this.userName = userName;
         this.userMail = mail;
-        this.userPassWord = passWord;
+        this.userPassWord = userPassWord;
     }
 
     //Getters & setters
@@ -66,6 +73,38 @@ public class Player {
         this.scores = scores;
     }
 
+    public Double getPoints() {
+        return points;
+    }
+
+    public void setPoints(Double points) {
+        this.points = points;
+    }
+
+    public Integer getWins() {
+        return wins;
+    }
+
+    public void setWins(Integer wins) {
+        this.wins = wins;
+    }
+
+    public Integer getLoses() {
+        return loses;
+    }
+
+    public void setLoses(Integer loses) {
+        this.loses = loses;
+    }
+
+    public Integer getTies() {
+        return ties;
+    }
+
+    public void setTies(Integer ties) {
+        this.ties = ties;
+    }
+
     //Methods
 
     public void addPlayer (GamePlayer gamePlayer) {
@@ -73,9 +112,20 @@ public class Player {
         gamePlayers.add(gamePlayer);
     }
 
+    public void setWin() {
+        this.points += 1.0;
+        this.wins++;
+    }
 
+    public void setLose() {
+        this.loses++;
+    }
 
-
+    public void setTie()
+    {
+        this.points += 0.5;
+        this.ties++;
+    }
 
 
 

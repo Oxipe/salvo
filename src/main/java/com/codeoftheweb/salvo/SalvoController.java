@@ -1,6 +1,11 @@
 package com.codeoftheweb.salvo;
 
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -22,6 +27,34 @@ public class SalvoController {
     private SalvoRepository salvoRepo;
     @Autowired
     private ScoreRepository scoreRepo;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+
+
+    //Origional path "/persons"
+    @RequestMapping(path = "/persons", method = RequestMethod.POST)
+    public ResponseEntity<Object> register(
+            @RequestParam String userName,
+            @RequestParam String email,
+            @RequestParam String password) {
+
+        if (userName.isEmpty() || email.isEmpty() || password.isEmpty()) {
+            return new ResponseEntity<>("Missing data", HttpStatus.FORBIDDEN);
+        }
+
+        if (playerRepo.findByUserMail(userName) !=  null) {
+            return new ResponseEntity<>("Name already in use", HttpStatus.FORBIDDEN);
+        }
+
+        playerRepo.save(new Player(userName, email, passwordEncoder.encode(password)));
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    //To check if the user is a guest.
+    private boolean isGuest(Authentication authentication) {
+        return authentication == null; // || authentication instanceof AnonymousAuthenticationToken;  <== error
+    }
 
     @RequestMapping("/games")
     public List<Object> getAllGames() {
@@ -39,8 +72,6 @@ public class SalvoController {
         dto.put("created", game.getDate().getTime());
         dto.put("game_name", game.getGameName());
         dto.put("gamePlayers", game.getGamePlayers().stream().map(gamePlayer -> makeGamePlayerDTO(gamePlayer)).collect(toList()));
-        //You still need this?
-        //dto.put("score", game.getScore().stream().map(score -> makeScoreDTO(score)).collect(toList()));
 
         return dto;
     }
@@ -81,10 +112,45 @@ public class SalvoController {
         return dto;
     }
 
+
+//    @RequestMapping("/scores")
+//    public List<Object> scoreList () {
+//        List<Object> listOfScores = new ArrayList<>();
+//        for (long i = 1; i < gameplayerRepo.findAll().size(); i++) {
+//            Long gameId = gameplayerRepo.getOne(i).getGame().getId() ;
+//            Double score = 0.0;
+//            System.out.println(gameId);
+//
+//            if (!gameplayerRepo.getOne(i).getGame().getScore().stream().filter(gameScore -> gameScore.getGame().getId() == gameId).findFirst().get().getScore().isNaN()) {
+//                score = gameplayerRepo.getOne(i).getGame().getScore().stream().filter(gameScore -> gameScore.getGame().getId() == gameId).findFirst().get().getScore();
+//            } else {
+//                continue;
+//            }
+//
+//            if (score == 1.0) {
+//                gameplayerRepo.getOne(i).getPlayer().setWin();
+//            } else if (score == 0.5) {
+//                gameplayerRepo.getOne(i).getPlayer().setTie();
+//            } else if (score == 0.0) {
+//                gameplayerRepo.getOne(i).getPlayer().setLose();
+//            } else {
+//                continue;
+//            }
+//
+//            listOfScores.add(makeScoreDTO(gameplayerRepo.getOne(i).getPlayer().getUserName(),
+//                    gameplayerRepo.getOne(i).getPlayer().getPoints(),
+//                    gameplayerRepo.getOne(i).getPlayer().getWins(),
+//                    gameplayerRepo.getOne(i).getPlayer().getLoses(),
+//                    gameplayerRepo.getOne(i).getPlayer().getTies()));
+//
+//        }
+//        System.out.println(listOfScores);
+//        return listOfScores;
+//    }
+
     @RequestMapping("/scores")
     public List<Object> scoreList () {
         List<Object> listOfScores = new ArrayList<>();
-        Map<String, Object> dto = new LinkedHashMap<>();;
         List<String> listOfPlayers = new ArrayList<>();
 
         for (long i = 1; i < playerRepo.findAll().size(); i++) {
