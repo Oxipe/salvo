@@ -1,64 +1,141 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
+<head>
+    <meta charset="UTF-8">
 
-        <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-        <title>My Game</title>
-    </head>
-    <body>
-        <form id="login-form" onsubmit="return false">
-            <label>Name: <input type="text" name="username"></label>
-            <label>Password: <input type="text" name="password"></label>
-        </form>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 
+    <link rel="stylesheet" href="style/reset.css" type="text/css" />
+    <link rel="stylesheet" href="style/style.css" type="text/css" />
 
-        <form id="logout-form" onsubmit="return false">
-            <button onclick="logout()">Log out</button>
-        </form>
+    <title>My Game</title>
+</head>
+<body>
+    <!--Header-->
+    <div id="header">
+        <div class="header">
+            <div>
+                <img src="images/logo.jpg" alt="Salvo" />
+            </div>
+            <div v-if="!isLoggedIn" class="welcome_wrapper">
+                <div class="welcome">
+                    <h1>Ahoy Matey!</h1>
+                </div>
+                <a href="#" @click="login = !login"><img src="images/login.jpg" alt="" /></a>
+                <a href="#" @click="signup = !signup"><img src="images/signup.jpg" alt="" /></a>
+            </div>
 
+            <div v-if="isLoggedIn" class="welcome_wrapper">
+                <div class="welcome">
+                    <h1>Ahoy {{player}}!</h1>
+                </div>
+                <a href="#" @click="login = !login"><img src="images/join.jpg" alt="" /></a>
+                <a href="#" @click="signup = !signup"><img src="images/create.jpg" alt="" /></a>
+            </div>
+        </div>
+        
 
-        <script>
-            /*
-        function login(evt) {
-  evt.preventDefault();
-  var form = evt.target.form;
-            $.post("/app/web/home.html",
-                {
-                    name: form["username"].value,
-                    pwd: form["password"].value
-                })
-                .done(console.log("logged in"))
-                .fail(console.log("failed to log in"));
-}
+        <!--Login-->
+        <div class="login" v-if="login">
+            <form method="post">
+                <div class="popup">
+                    <label>User name:</label><input id="inputUserName" type="text" name="username">
+                    <label>Password:</label> <input id="inputUserPassWord" type="password" name="password">
 
-function logout(evt) {
-  evt.preventDefault();
-    $.post("/app/logout")
-        .done(console.log("logged out"))
-        .fail(console.log("failed to log out"));
-}
-            */
-            
-            fetch("/api/login", {
-                credentials: 'include',
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: 'userName=j.bauer@ctu.gov&userPassWord=24'
-                //body: 'userName=Jack&userMail=j.bauer@ctu.gov&password=24'
-            })
-                .then(r => {
-                    if (r.status === 200)
-                        console.log(r);
-                })
-                .catch(e => console.log(e));
+                    <div class="popup_button">
+                        <a href="#" onclick="logIn()"><img src="images/login.jpg" alt="" /></a>
+                    </div>
+                </div>
+
                 
-        </script>
-    </body>
+            </form>
+        </div>
+
+        <!--Sign up-->
+        <div v-if="signup">
+            <form method="post">
+                <div class="popup">
+                    <label>User name:</label><input id="inputUserName" type="text" name="username">
+                    <label>Mail Address:</label><input id="inputUserMail" type="text" name="usermail">
+                    <label>Password:</label> <input id="inputUserPassWord" type="password" name="password">
+
+                    <div class="popup_button">
+                        <a href="#" onclick="signUp()"><img src="images/signup.jpg" alt="" /></a>
+                    </div>
+                </div>
+
+
+            </form>
+        </div>
+    </div>
+
+
+
+    <!--Game Info-->
+    <div v-if="gameInfo" class="game_info" id="gameInfo">
+        <div class="current_games">
+            <p class="table_title">Current Games</p>
+            <table class="table_current_games">
+                <thead>
+                    <tr>
+                        <td class="table_header">Game</td>
+                        <td class="table_header">Creator</td>
+                        <td class="table_header">Opponent</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="game in games">
+                        <td>{{game.game_name}}</td>
+
+                        <td>{{game.gamePlayers[0].player.user_name}}</td>
+                        <td v-if="game.gamePlayers[1]">{{game.gamePlayers[1].player.user_name}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+
+        <div class="ranking">
+            <p class="table_title">Rankings</p>
+            <table class="table_ranking">
+                <thead>
+                    <tr>
+                        <td class="table_header">Player</td>
+                        <td class="table_header">Score</td>
+                        <td class="table_header">Wins</td>
+                        <td class="table_header">Loses</td>
+                        <td class="table_header">Ties</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="score in scores">
+                        <td class="table_cell">{{score.player}}</td>
+                        <td class="table_cell">{{score.points}}</td>
+                        <td class="table_cell">{{score.wins}}</td>
+                        <td class="table_cell">{{score.loses}}</td>
+                        <td class="table_cell">{{score.ties}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+
+
+    <script src="scripts/main.js"></script>
+
+</body>
 </html>
+
+
+
+
+<!--
+
+
+
+-->

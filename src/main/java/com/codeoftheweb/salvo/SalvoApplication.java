@@ -4,11 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+//import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.authentication.configuration.GlobalAuthenticationConfigurerAdapter;
+//import org.springframework.security.config.annotation.authentication.configuration.GlobalAuthenticationConfigurerAdapter;
+import org.springframework.security.config.annotation.authentication.configurers.GlobalAuthenticationConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -40,19 +42,19 @@ public class SalvoApplication extends SpringBootServletInitializer {
 	}
 
 	@Bean
-	public CommandLineRunner initData (PlayerRepository playerRepo,
-									   GameRepository gameRepo,
-									   GamePlayerRepository gamePlayerRepo,
-									   ShipRepository shipRepo,
-                                       SalvoRepository salvoRepo,
-                                       ScoreRepository scoreRepo) {
+	public CommandLineRunner initData(PlayerRepository playerRepo,
+									  GameRepository gameRepo,
+									  GamePlayerRepository gamePlayerRepo,
+									  ShipRepository shipRepo,
+									  SalvoRepository salvoRepo,
+									  ScoreRepository scoreRepo) {
 		return args -> {
 			//Variables
-			String carrier 		= "Carrier";
-			String battleShip 	= "Battle Ship";
-			String submarine 	= "Submarine";
-			String destroyer 	= "Destroyer";
-			String patrolBoat 	= "Patrol Boat";
+			String carrier = "Carrier";
+			String battleShip = "Battle Ship";
+			String submarine = "Submarine";
+			String destroyer = "Destroyer";
+			String patrolBoat = "Patrol Boat";
 
 			//Creating players and saving into repository
 			Player player1 = new Player("Jack", "j.bauer@ctu.gov", "24");
@@ -94,15 +96,15 @@ public class SalvoApplication extends SpringBootServletInitializer {
 			gameRepo.save(game8);
 
 			//Creating gameplayers and saving into repository
-			GamePlayer gamePlayer1  = new GamePlayer(game1, player1);
-			GamePlayer gamePlayer2  = new GamePlayer(game1, player2);
-			GamePlayer gamePlayer3  = new GamePlayer(game2, player1);
-			GamePlayer gamePlayer4  = new GamePlayer(game2, player2);
-			GamePlayer gamePlayer5  = new GamePlayer(game3, player2);
-			GamePlayer gamePlayer6  = new GamePlayer(game3, player4);
-			GamePlayer gamePlayer7  = new GamePlayer(game4, player2);
-			GamePlayer gamePlayer8  = new GamePlayer(game4, player1);
-			GamePlayer gamePlayer9  = new GamePlayer(game5, player4);
+			GamePlayer gamePlayer1 = new GamePlayer(game1, player1);
+			GamePlayer gamePlayer2 = new GamePlayer(game1, player2);
+			GamePlayer gamePlayer3 = new GamePlayer(game2, player1);
+			GamePlayer gamePlayer4 = new GamePlayer(game2, player2);
+			GamePlayer gamePlayer5 = new GamePlayer(game3, player2);
+			GamePlayer gamePlayer6 = new GamePlayer(game3, player4);
+			GamePlayer gamePlayer7 = new GamePlayer(game4, player2);
+			GamePlayer gamePlayer8 = new GamePlayer(game4, player1);
+			GamePlayer gamePlayer9 = new GamePlayer(game5, player4);
 			GamePlayer gamePlayer10 = new GamePlayer(game5, player1);
 			GamePlayer gamePlayer11 = new GamePlayer(game6, player3);
 			GamePlayer gamePlayer12 = new GamePlayer(game7, player4);
@@ -160,8 +162,8 @@ public class SalvoApplication extends SpringBootServletInitializer {
 			List<String> location27 = Arrays.asList("C6", "C7");
 
 			//Creating ships
-			Ship ship1 = new Ship(destroyer, gamePlayer1, location1 );
-			Ship ship2 = new Ship(submarine, gamePlayer1, location2 );
+			Ship ship1 = new Ship(destroyer, gamePlayer1, location1);
+			Ship ship2 = new Ship(submarine, gamePlayer1, location2);
 			Ship ship3 = new Ship(patrolBoat, gamePlayer1, location3);
 			Ship ship4 = new Ship(destroyer, gamePlayer1, location4);
 			Ship ship5 = new Ship(patrolBoat, gamePlayer1, location5);
@@ -173,7 +175,7 @@ public class SalvoApplication extends SpringBootServletInitializer {
 
 			Ship ship10 = new Ship(destroyer, gamePlayer3, location10);
 			Ship ship11 = new Ship(patrolBoat, gamePlayer3, location11);
-			Ship ship12 = new Ship (submarine, gamePlayer3, location12);
+			Ship ship12 = new Ship(submarine, gamePlayer3, location12);
 			Ship ship13 = new Ship(patrolBoat, gamePlayer3, location13);
 
 			Ship ship14 = new Ship(destroyer, gamePlayer4, location14);
@@ -244,135 +246,135 @@ public class SalvoApplication extends SpringBootServletInitializer {
 			List<String> salvoLocation20 = Arrays.asList("C6", "D6", "E6");
 			List<String> salvoLocation21 = Arrays.asList("H1", "h8");
 
-            Salvo salvo1 = new Salvo(1, gamePlayer1, player1.getId(), salvoLocation1);
-            Salvo salvo2 = new Salvo(1, gamePlayer1, player2.getId(), salvoLocation2);
-            Salvo salvo3 = new Salvo(2, gamePlayer1, player1.getId(), salvoLocation3);
-            Salvo salvo4 = new Salvo(2, gamePlayer1, player2.getId(), salvoLocation4);
+			Salvo salvo1 = new Salvo(1, gamePlayer1, player1.getId(), salvoLocation1);
+			Salvo salvo2 = new Salvo(1, gamePlayer1, player2.getId(), salvoLocation2);
+			Salvo salvo3 = new Salvo(2, gamePlayer1, player1.getId(), salvoLocation3);
+			Salvo salvo4 = new Salvo(2, gamePlayer1, player2.getId(), salvoLocation4);
 
-            Salvo salvo5 = new Salvo(1, gamePlayer2, player1.getId(), salvoLocation5);
-            Salvo salvo6 = new Salvo(1, gamePlayer2, player2.getId(), salvoLocation6);
-            Salvo salvo7 = new Salvo(2, gamePlayer2, player1.getId(), salvoLocation7);
-            Salvo salvo8 = new Salvo(2, gamePlayer2, player2.getId(), salvoLocation8);
+			Salvo salvo5 = new Salvo(1, gamePlayer2, player1.getId(), salvoLocation5);
+			Salvo salvo6 = new Salvo(1, gamePlayer2, player2.getId(), salvoLocation6);
+			Salvo salvo7 = new Salvo(2, gamePlayer2, player1.getId(), salvoLocation7);
+			Salvo salvo8 = new Salvo(2, gamePlayer2, player2.getId(), salvoLocation8);
 
-            Salvo salvo9 = new Salvo(1, gamePlayer3, player2.getId(), salvoLocation9);
-            Salvo salvo10 = new Salvo(1, gamePlayer3, player4.getId(), salvoLocation10);
-            Salvo salvo11 = new Salvo(2, gamePlayer3, player2.getId(), salvoLocation11);
-            Salvo salvo12 = new Salvo(2, gamePlayer3, player4.getId(), salvoLocation12);
+			Salvo salvo9 = new Salvo(1, gamePlayer3, player2.getId(), salvoLocation9);
+			Salvo salvo10 = new Salvo(1, gamePlayer3, player4.getId(), salvoLocation10);
+			Salvo salvo11 = new Salvo(2, gamePlayer3, player2.getId(), salvoLocation11);
+			Salvo salvo12 = new Salvo(2, gamePlayer3, player4.getId(), salvoLocation12);
 
-            Salvo salvo13 = new Salvo(1, gamePlayer4, player2.getId(), salvoLocation13);
-            Salvo salvo14 = new Salvo(1, gamePlayer4, player1.getId(), salvoLocation14);
-            Salvo salvo15 = new Salvo(2, gamePlayer4, player2.getId(), salvoLocation15);
-            Salvo salvo16 = new Salvo(2, gamePlayer4, player1.getId(), salvoLocation16);
+			Salvo salvo13 = new Salvo(1, gamePlayer4, player2.getId(), salvoLocation13);
+			Salvo salvo14 = new Salvo(1, gamePlayer4, player1.getId(), salvoLocation14);
+			Salvo salvo15 = new Salvo(2, gamePlayer4, player2.getId(), salvoLocation15);
+			Salvo salvo16 = new Salvo(2, gamePlayer4, player1.getId(), salvoLocation16);
 
-            Salvo salvo17 = new Salvo(1, gamePlayer5, player4.getId(), salvoLocation17);
-            Salvo salvo18 = new Salvo(1, gamePlayer5, player1.getId(), salvoLocation18);
-            Salvo salvo19 = new Salvo(2, gamePlayer5, player4.getId(), salvoLocation19);
-            Salvo salvo20 = new Salvo(2, gamePlayer5, player1.getId(), salvoLocation20);
-            Salvo salvo21 = new Salvo(3, gamePlayer3, player1.getId(), salvoLocation21);
+			Salvo salvo17 = new Salvo(1, gamePlayer5, player4.getId(), salvoLocation17);
+			Salvo salvo18 = new Salvo(1, gamePlayer5, player1.getId(), salvoLocation18);
+			Salvo salvo19 = new Salvo(2, gamePlayer5, player4.getId(), salvoLocation19);
+			Salvo salvo20 = new Salvo(2, gamePlayer5, player1.getId(), salvoLocation20);
+			Salvo salvo21 = new Salvo(3, gamePlayer3, player1.getId(), salvoLocation21);
 
-            salvoRepo.save(salvo1);
-            salvoRepo.save(salvo2);
-            salvoRepo.save(salvo3);
-            salvoRepo.save(salvo4);
-            salvoRepo.save(salvo5);
-            salvoRepo.save(salvo6);
-            salvoRepo.save(salvo7);
-            salvoRepo.save(salvo8);
-            salvoRepo.save(salvo9);
-            salvoRepo.save(salvo10);
-            salvoRepo.save(salvo11);
-            salvoRepo.save(salvo12);
-            salvoRepo.save(salvo13);
-            salvoRepo.save(salvo14);
-            salvoRepo.save(salvo15);
-            salvoRepo.save(salvo16);
-            salvoRepo.save(salvo17);
-            salvoRepo.save(salvo18);
-            salvoRepo.save(salvo19);
-            salvoRepo.save(salvo20);
-            salvoRepo.save(salvo21);
+			salvoRepo.save(salvo1);
+			salvoRepo.save(salvo2);
+			salvoRepo.save(salvo3);
+			salvoRepo.save(salvo4);
+			salvoRepo.save(salvo5);
+			salvoRepo.save(salvo6);
+			salvoRepo.save(salvo7);
+			salvoRepo.save(salvo8);
+			salvoRepo.save(salvo9);
+			salvoRepo.save(salvo10);
+			salvoRepo.save(salvo11);
+			salvoRepo.save(salvo12);
+			salvoRepo.save(salvo13);
+			salvoRepo.save(salvo14);
+			salvoRepo.save(salvo15);
+			salvoRepo.save(salvo16);
+			salvoRepo.save(salvo17);
+			salvoRepo.save(salvo18);
+			salvoRepo.save(salvo19);
+			salvoRepo.save(salvo20);
+			salvoRepo.save(salvo21);
 
-            Score score1 = new Score(game1, player1, 1.0);
-            Score score2 = new Score(game1, player2, 0.0);
-            Score score3 = new Score(game2, player1, 0.5);
-            Score score4 = new Score(game2, player2, 0.5);
-            Score score5 = new Score(game3, player2, 1.0);
-            Score score6 = new Score(game3, player4, 0.0);
-            Score score7 = new Score(game4, player2, 0.5);
-            Score score8 = new Score(game4, player1, 0.5);
+			Score score1 = new Score(game1, player1, 1.0);
+			Score score2 = new Score(game1, player2, 0.0);
+			Score score3 = new Score(game2, player1, 0.5);
+			Score score4 = new Score(game2, player2, 0.5);
+			Score score5 = new Score(game3, player2, 1.0);
+			Score score6 = new Score(game3, player4, 0.0);
+			Score score7 = new Score(game4, player2, 0.5);
+			Score score8 = new Score(game4, player1, 0.5);
 
-            scoreRepo.save(score1);
-            scoreRepo.save(score2);
-            scoreRepo.save(score3);
-            scoreRepo.save(score4);
-            scoreRepo.save(score5);
-            scoreRepo.save(score6);
-            scoreRepo.save(score7);
-            scoreRepo.save(score8);
+			scoreRepo.save(score1);
+			scoreRepo.save(score2);
+			scoreRepo.save(score3);
+			scoreRepo.save(score4);
+			scoreRepo.save(score5);
+			scoreRepo.save(score6);
+			scoreRepo.save(score7);
+			scoreRepo.save(score8);
 		};
 	}
+}
+@Configuration
+class WebSecurityConfiguration extends GlobalAuthenticationConfigurerAdapter {
 
-	@Configuration
-	class WebSecurityConfiguration extends GlobalAuthenticationConfigurerAdapter {
+	@Autowired
+	PlayerRepository playerRepository;
 
-		@Autowired
-		PlayerRepository playerRepository;
-
-		@Override
-		public void init(AuthenticationManagerBuilder auth) throws Exception {
-			auth.userDetailsService(inputName-> {
-				Player player = playerRepository.findByUserName(inputName);
-				if (player != null) {
-					return new User(player.getUserName(), player.getUserPassWord(),
-							AuthorityUtils.createAuthorityList("USER"));
-				} else {
-					throw new UsernameNotFoundException("Unknown e-mail: " + inputName);
-				}
-			});
-		}
+	@Override
+	public void init(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(inputName-> {
+			Player player = playerRepository.findByUserName(inputName);
+			if (player != null) {
+				return new User(player.getUserName(), player.getUserPassWord(),
+						AuthorityUtils.createAuthorityList("USER"));
+			} else {
+				throw new UsernameNotFoundException("Unknown user: " + inputName);
+			}
+		});
 	}
+}
 
-	@Configuration
-	@EnableWebSecurity
-	class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-		@Override
-		protected void configure(HttpSecurity http) throws Exception {
-			http.authorizeRequests()
+@Configuration
+@EnableWebSecurity
+class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		http.authorizeRequests()
 //					.antMatchers("/web/home.html", "/api/**").permitAll()
 //					.antMatchers("/admin/**").hasAuthority("ADMIN")
 //					.antMatchers("/**").hasAuthority("USER")
-					.antMatchers("/**").permitAll()
-					.and()
-					.formLogin();
+				.antMatchers("/**").permitAll()
+				.and()
+				.formLogin();
 
-			http.formLogin()
-					.usernameParameter("userName")
-					.passwordParameter("userPassWord")
-					.loginPage("/api/login");
+		http.formLogin()
+				.usernameParameter("userName")
+				.passwordParameter("userPassWord")
+				.loginPage("/api/login");
 
-			http.logout().logoutUrl("/api/logout");
+		http.logout().logoutUrl("/api/logout");
 
-			// turn off checking for CSRF tokens
-			http.csrf().disable();
+		// turn off checking for CSRF tokens
+		http.csrf().disable();
 
-			// if user is not authenticated, just send an authentication failure response
-			http.exceptionHandling().authenticationEntryPoint((req, res, exc) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED));
+		// if user is not authenticated, just send an authentication failure response
+		http.exceptionHandling().authenticationEntryPoint((req, res, exc) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED));
 
-			// if login is successful, just clear the flags asking for authentication
-			http.formLogin().successHandler((req, res, auth) -> clearAuthenticationAttributes(req));
+		// if login is successful, just clear the flags asking for authentication
+		http.formLogin().successHandler((req, res, auth) -> clearAuthenticationAttributes(req));
 
-			// if login fails, just send an authentication failure response
-			http.formLogin().failureHandler((req, res, exc) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED));
+		// if login fails, just send an authentication failure response
+		http.formLogin().failureHandler((req, res, exc) -> res.sendError(HttpServletResponse.SC_UNAUTHORIZED));
 
-			// if logout is successful, just send a success response
-			http.logout().logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler());
-		}
+		// if logout is successful, just send a success response
+		http.logout().logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler());
+	}
 
-		private void clearAuthenticationAttributes(HttpServletRequest request) {
-			HttpSession session = request.getSession(false);
-			if (session != null) {
-				session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
-			}
+	private void clearAuthenticationAttributes(HttpServletRequest request) {
+		HttpSession session = request.getSession(false);
+		if (session != null) {
+			session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
 		}
 	}
 }
+

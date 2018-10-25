@@ -1,14 +1,14 @@
 package com.codeoftheweb.salvo;
 
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.*;
 
 import static java.util.stream.Collectors.toList;
@@ -32,33 +32,59 @@ public class SalvoController {
 
 
 
-    //Origional path "/persons"
-    @RequestMapping(path = "/persons", method = RequestMethod.POST)
+
+
+    @RequestMapping(path = "/players")
     public ResponseEntity<Object> register(
             @RequestParam String userName,
-            @RequestParam String email,
-            @RequestParam String password) {
+            @RequestParam String userMail,
+            @RequestParam String userPassWord) {
 
-        if (userName.isEmpty() || email.isEmpty() || password.isEmpty()) {
+        if (userName.isEmpty() || userMail.isEmpty() || userPassWord.isEmpty()) {
             return new ResponseEntity<>("Missing data", HttpStatus.FORBIDDEN);
         }
 
-        if (playerRepo.findByUserMail(userName) !=  null) {
+        if (playerRepo.findByUserName(userName) !=  null) {
             return new ResponseEntity<>("Name already in use", HttpStatus.FORBIDDEN);
         }
 
-        playerRepo.save(new Player(userName, email, passwordEncoder.encode(password)));
+        if (playerRepo.findByUserMail(userMail) != null) {
+            return new ResponseEntity<>("Mail address already in use", HttpStatus.FORBIDDEN);
+        }
+
+        playerRepo.save(new Player(userName, userMail, userPassWord)); //passwordEncoder.encode() <== to use to encrypt the password
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     //To check if the user is a guest.
     private boolean isGuest(Authentication authentication) {
-        return authentication == null; // || authentication instanceof AnonymousAuthenticationToken;  <== error
+        return authentication == null || authentication instanceof AnonymousAuthenticationToken;
     }
 
     @RequestMapping("/games")
     public List<Object> getAllGames() {
+
         return gameRepo.findAll().stream().map(game -> makeGameDTO(game)).collect(toList());
+    }
+
+    @RequestMapping("/player")
+    public Object getCurrentPlayer(Authentication authentication) {
+        if (!isGuest(authentication)) {
+            return makeCurrentPlayerDTO(playerRepo.findByUserName(authentication.getName()));
+        } else {
+            return "Not a valid user";
+        }
+    }
+
+
+    public Map<String, Object> makeCurrentPlayerDTO (Player player) {
+        Map<String, Object> dto = new LinkedHashMap<>();
+        dto.put("id", player.getId());
+        dto.put("user_name", player.getUserName());
+        dto.put("user_mail", player.getUserMail());
+        dto.put("games", player.getGames().stream().map(gamePlayer -> makeGameDTO(gamePlayer.getGame())).collect(toList()));
+
+        return dto;
     }
 
     @RequestMapping("/gp/{id}")
@@ -194,5 +220,4 @@ public class SalvoController {
 
         return dto;
     }
-
 }
