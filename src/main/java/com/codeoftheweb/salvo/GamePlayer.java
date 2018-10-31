@@ -34,7 +34,7 @@ public class GamePlayer {
 
     //Constructors
 
-    public GamePlayer () {};
+    public GamePlayer () {}
 
     public GamePlayer (Game game, Player player) {
         this.game = game;

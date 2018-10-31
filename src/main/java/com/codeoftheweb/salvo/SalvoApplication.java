@@ -59,7 +59,7 @@ public class SalvoApplication extends SpringBootServletInitializer {
 			//Creating players and saving into repository
 			Player player1 = new Player("Jack", "j.bauer@ctu.gov", "24");
 			Player player2 = new Player("Chloe", "c.obrian@ctu.gov", "42");
-			Player player3 = new Player("Kim", "kim_bauer#gmail.com", "kb");
+			Player player3 = new Player("Kim", "kim_bauer@gmail.com", "kb");
 			Player player4 = new Player("Tony", "t.almeida@ctu.gov", "mole");
 
 			playerRepo.save(player1);

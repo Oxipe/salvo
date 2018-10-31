@@ -23,19 +23,20 @@
                 <div class="welcome">
                     <h1>Ahoy Matey!</h1>
                 </div>
-                <a href="#" @click="login = !login"><img src="images/login.jpg" alt="" /></a>
-                <a href="#" @click="signup = !signup"><img src="images/signup.jpg" alt="" /></a>
+                <a href="#" @click="login = !login, signup = false"><img src="images/login.jpg" alt="" /></a>
+                <a href="#" @click="signup = !signup, login = false"><img src="images/signup.jpg" alt="" /></a>
             </div>
 
             <div v-if="isLoggedIn" class="welcome_wrapper">
                 <div class="welcome">
                     <h1>Ahoy {{player}}!</h1>
                 </div>
-                <a href="#" @click="login = !login"><img src="images/join.jpg" alt="" /></a>
-                <a href="#" @click="signup = !signup"><img src="images/create.jpg" alt="" /></a>
+                <a href="#" v-on:click="toJoin = !toJoin, showGamesToJoin()"><img src="images/join.jpg" alt="" /></a>
+                <a href="#" onclick="createGame()"><img src="images/create.jpg" alt="" /></a>
+                <a href="#" onclick="logOut()"><img src="images/logout.jpg" alt="" /></a>
             </div>
         </div>
-        
+
 
         <!--Login-->
         <div class="login" v-if="login">
@@ -49,12 +50,12 @@
                     </div>
                 </div>
 
-                
+
             </form>
         </div>
 
         <!--Sign up-->
-        <div v-if="signup">
+        <div class="signup" v-if="signup">
             <form method="post">
                 <div class="popup">
                     <label>User name:</label><input id="inputUserName" type="text" name="username">
@@ -69,13 +70,9 @@
 
             </form>
         </div>
-    </div>
 
-
-
-    <!--Game Info-->
-    <div v-if="gameInfo" class="game_info" id="gameInfo">
-        <div class="current_games">
+        <!--Game Info-->
+        <div v-if="!toJoin" class="current_games">
             <p class="table_title">Current Games</p>
             <table class="table_current_games">
                 <thead>
@@ -95,7 +92,44 @@
                 </tbody>
             </table>
         </div>
-        
+
+        <div v-if="toJoin">
+            <table class="table_current_games">
+                <thead>
+                    <tr>
+                        <td class="table_header">Game</td>
+                        <td class="table_header">Creator</td>
+                        <td class="table_header">Join</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(game, index) in gamesToJoin" v-if="gamesToJoin[index].gamePlayers[0].player.user_name != player">
+                        <td>{{game.game_name}}</td>
+
+                        <td>{{game.gamePlayers[0].player.user_name}}</td>
+                        <td><a v-on:click="joinGame(index, 'join')">Challenge</a></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="table_current_games">
+                <thead>
+                    <tr>
+                        <td class="table_header">Game</td>
+                        <td class="table_header">Creator</td>
+                        <td class="table_header">Return</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(game, index) in gamesToReturn">
+                        <td>{{game.game.game_name}}</td>
+                        <td>{{game.game.gamePlayers[0].player.user_name}}</td>
+                        <td><a v-on:click="returnToGame(index)">Return</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
 
         <div class="ranking">
             <p class="table_title">Rankings</p>
@@ -122,10 +156,7 @@
         </div>
     </div>
 
-
-
-
-
+    
     <script src="scripts/main.js"></script>
 
 </body>
