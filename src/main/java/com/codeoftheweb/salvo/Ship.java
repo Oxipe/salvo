@@ -22,15 +22,17 @@ public class Ship {
     @JoinColumn(name = "locations")
     private List<String> locations;
 
+    private Integer shipLenght;
+
     //Constructors
 
     public Ship() {}
 
     public Ship(String shipType, GamePlayer gamePlayer, List<String> locations) {
-
         this.shipType = shipType;
         this.gamePlayer = gamePlayer;
         this.locations = locations;
+        this.shipLenght = setShipLenght(shipType);
     }
 
     //Getters & setters
@@ -54,5 +56,24 @@ public class Ship {
     public void setLocations(List<String> locations) {
         this.locations = locations;
     }
-}
 
+    public Integer getShipLenght() { return shipLenght; }
+
+    private Integer setShipLenght(String type) {
+        Integer length = 0;
+        switch (type) {
+            case "Carrier": length = 5;
+                break;
+            case "Battle Ship": length = 4;
+                break;
+            case "Submarine": length = 3;
+                break;
+            case "Destroyer": length = 3;
+                break;
+            case "Patrol Boat": length = 2;
+                break;
+        }
+
+        return length;
+    }
+}

@@ -15,6 +15,8 @@ public class Game {
     private Long id;
     private Date date;
     private String gameName;
+    private String creator;
+    private String opponent;
 
     @OneToMany(mappedBy = "game", fetch = FetchType.EAGER)
     Set<GamePlayer> gamePlayers;
@@ -26,9 +28,17 @@ public class Game {
 
     public Game () {}
 
-    public Game (String gameName) {
+    public Game (String gameName, String creator) {
         this.date = new Date();
         this.gameName = gameName;
+        this.creator = creator;
+    }
+
+    public Game (String gameName, String creator, String opponent) {
+        this.date = new Date();
+        this.gameName = gameName;
+        this.creator = creator;
+        this.opponent = opponent;
     }
 
     //Getters & setters
@@ -60,6 +70,14 @@ public class Game {
     public void setScore(Set<Score> score) {
         this.scores = score;
     }
+
+    public String getCreator() { return creator; }
+
+    public void setCreator(String creator) { this.creator = creator; }
+
+    public String getOpponent() { return opponent; }
+
+    public void setOpponent(String opponent) { this.opponent = opponent; }
 
     //Methods
 

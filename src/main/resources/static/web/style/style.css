@@ -34,13 +34,11 @@ body {
     width: 1000px;
     height: auto;
     background-color: #EEE;
+    text-decoration: none;
     margin: auto;
     font-family: "Black Pearl"
+
 }
-
-
-
-
 
 /*
 ==================================================
@@ -96,8 +94,6 @@ body {
     margin: 5px 5px 0 5px;
 }
 
-
-
 .popup_button {
     flex-basis: 100%;
     display: flex;
@@ -111,7 +107,7 @@ body {
 ==================================================
 */
 
-.game_info {
+.app_wrapper {
     display: flex;
     justify-content: space-between;
 
@@ -165,9 +161,88 @@ body {
 
 /*
 ==================================================
-    Body
+    Game view
 ==================================================
 */
+
+.game_info {
+    flex-basis: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-flow: row wrap;
+    font-size: 60px;
+    margin: 10px 0;
+}
+
+.assigned_grid {
+    flex-basis: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-flow: row wrap;
+    font-size: 35px;
+    margin: 20px 0 10px 0;
+}
+
+.game_view {
+    flex-basis: 100%;
+    display: flex;
+    justify-content: space-around;
+    flex-flow: row wrap;
+}
+
+.selected_ship {
+    text-align: center;
+    margin: 5px 0;
+    height: 20px;
+}
+
+.ship_layout {
+    width: 400px;
+    height: 30px;
+    text-align: center;
+    margin: 10px 0;
+}
+
+.selected_ship_layout {
+    height: 150px;
+    width: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: row wrap;
+}
+
+.table_with_ships table{
+    width: 400px;
+}
+
+.table_with_ships td {
+    border-left: 1px solid black;
+    height: 25px;
+    text-align: center;
+}
+
+.table_with_ships thead tr{
+    border-bottom: 1px solid black;
+}
+
+.table_with_ships td:last-child {
+    border-right: 1px solid black;
+}
+
+.font {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+}
+
+.placement_info {
+    margin-top: 50px;
+}
+
+.x {
+    font-size: 18px;
+}
 
 /*
 ==================================================
@@ -185,8 +260,10 @@ body {
 
 
 .grid_cell {
+    text-align: center;
     height: 30px;
     width: 30px;
+    vertical-align: middle;
 }
 
 
@@ -197,7 +274,10 @@ body {
 
 /*border and background color is temporary*/
 .cell_with_ship {
-    background-color: teal;
+    height: 24px;
+    width: 24px;
+    background-color: #3267a3;
+    margin: auto;
 }
 
 .cell_hit {

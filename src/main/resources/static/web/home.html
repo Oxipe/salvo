@@ -86,8 +86,8 @@
                     <tr v-for="game in games">
                         <td>{{game.game_name}}</td>
 
-                        <td>{{game.gamePlayers[0].player.user_name}}</td>
-                        <td v-if="game.gamePlayers[1]">{{game.gamePlayers[1].player.user_name}}</td>
+                        <td>{{game.creator}}</td>
+                        <td v-if="game.gamePlayers[1]">{{game.opponent}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -107,7 +107,7 @@
                         <td>{{game.game_name}}</td>
 
                         <td>{{game.gamePlayers[0].player.user_name}}</td>
-                        <td><a v-on:click="joinGame(index, 'join')">Challenge</a></td>
+                        <td><a v-on:click="joinGame(index)">Challenge</a></td>
                     </tr>
                 </tbody>
             </table>

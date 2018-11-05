@@ -68,14 +68,14 @@ public class SalvoApplication extends SpringBootServletInitializer {
 			playerRepo.save(player4);
 
 			//Creating games and saving into repository
-			Game game1 = new Game("Game 1");
-			Game game2 = new Game("Game 2");
-			Game game3 = new Game("Game 3");
-			Game game4 = new Game("Game 4");
-			Game game5 = new Game("Game 5");
-			Game game6 = new Game("Game 6");
-			Game game7 = new Game("Game 7");
-			Game game8 = new Game("Game 8");
+			Game game1 = new Game("Game 1", player1.getUserName(), player2.getUserName());
+			Game game2 = new Game("Game 2", player1.getUserName(), player2.getUserName());
+			Game game3 = new Game("Game 3", player2.getUserName(), player4.getUserName());
+			Game game4 = new Game("Game 4", player2.getUserName(), player1.getUserName());
+			Game game5 = new Game("Game 5", player4.getUserName(), player1.getUserName());
+			Game game6 = new Game("Game 6", player3.getUserName());
+			Game game7 = new Game("Game 7", player4.getUserName());
+			Game game8 = new Game("Game 8", player3.getUserName(), player4.getUserName());
 
 			//adding time to creation date
 			game2.addTime(game2.getDate(), 3600);

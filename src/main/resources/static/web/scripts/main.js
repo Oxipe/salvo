@@ -1,10 +1,4 @@
-if (getCookie("userName")) {
-    let userName = getCookie("userName");
-    let userPassWord = getCookie("userPassWord");
-
-    logIn(userName, userPassWord);
-}
-
+if (getCookie("userName")) logIn(getCookie("userName"), getCookie("userPassWord"));
 
 /*
 ==================================================
@@ -13,9 +7,7 @@ if (getCookie("userName")) {
 */
 $.getJSON("/api/games")
     .done(function (data) {
-        console.log(data);
-        data.reverse;
-        gameInfo.games = data;
+        gameInfo.showAllGames(data);
     })
     .catch(function(error) {
         console.log("Error: " + error);
@@ -23,7 +15,6 @@ $.getJSON("/api/games")
 
 $.getJSON("/api/scores")
     .done(function (data) {
-        console.log(data);
         gameInfo.scores = data;
     })
     .catch(function (error) {
@@ -32,8 +23,8 @@ $.getJSON("/api/scores")
 
 function logIn(userName, userPassWord) {
     if (!getCookie("userName") && gameInfo.login === true) {
-        userName = document.getElementById("inputUserName").value;
-        userPassWord = document.getElementById("inputUserPassWord").value;
+        userName = getValue("inputUserName");
+        userPassWord = getValue("inputUserPassWord");
     }
 
     fetch("/api/login", {
@@ -55,7 +46,6 @@ function logIn(userName, userPassWord) {
                 setTimeout(function () {
                     gameInfo.showGamesToReturn();
                 }, 500);
-                
             }
 
             if (r.status === 401) {
@@ -64,9 +54,8 @@ function logIn(userName, userPassWord) {
         })
         .catch(e => console.log(e));
 
-    document.getElementById("inputUserName").value = "";
-    document.getElementById("inputUserPassWord").value = "";
-
+    resetValue("inputUserName");
+    resetValue("inputUserPassWord");
 }
 
 function logOut() {
@@ -77,7 +66,7 @@ function logOut() {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/x-www-form-urlencoded'
-        },
+        }
     })
         .then(r => {
             if (r.status === 200) {
@@ -91,9 +80,9 @@ function logOut() {
 }
 
 function signUp() {
-    var userName = document.getElementById("inputUserName").value;
-    var userMail = document.getElementById("inputUserMail").value;
-    var userPassWord = document.getElementById("inputUserPassWord").value;
+    let userName = getValue("inputUserName");
+    let userMail = getValue("inputUserMail");
+    let userPassWord = getValue("inputUserPassWord");
 
     fetch("/api/players", {
         credentials: 'include',
@@ -116,12 +105,11 @@ function signUp() {
         })
         .catch(e => {
             alert("Error: " + e);
-            console.log(e);
         });
 
-    document.getElementById("inputUserName").value = "";
-    document.getElementById("inputUserMail").value = "";
-    document.getElementById("inputUserPassWord").value = "";
+    resetValue("inputUserName");
+    resetValue("inputUserMail");
+    resetValue("inputUserPassWord");
 }
 
 function createGame() {
@@ -134,15 +122,12 @@ function createGame() {
             'Content-Type': 'application/x-www-form-urlencoded'
         }
     })
-        .then(function (data) {
-            data.json()
-                .then(function (data) {
-                    location.href = "/web/game.html?gp=" + data.gameId;
-                });
+        .then(data => data.json())
+        .then(data => {
+            location.href = "/web/game.html?gp=" + data.gamePlayerId;
         })
         .catch(e => {
             alert("Error: " + e);
-            console.log(e);
         });
 }
 
@@ -169,9 +154,24 @@ var gameInfo = new Vue({
         toJoin: false
     },
     methods: {
+        showAllGames: function (data) {
+            
+            data.reverse();
+            console.log(data[0])
+            let i = 0;
+            while (this.games.length < 10) {
+                if (data[i]) {
+                    this.games.push(data[i]);
+                } else {
+                    break;
+                }
+
+                i++;
+            }
+        },
         showGamesToJoin: function () {
             this.gamesToJoin = [];
-            for (var i = 0; i < this.games.length; i++) {
+            for (let i = 0; i < this.games.length; i++) {
                 if (this.games[i].gamePlayers.length !== 2) {
                     this.gamesToJoin.push(this.games[i]);
                 }
@@ -191,12 +191,7 @@ var gameInfo = new Vue({
                 }
             }
         },
-        joinGame: function (index, target) {
-            console.log(index)
-            let gameId;
-
-            target === "join" ? gameId = this.gamesToJoin[index].id : gameId = this.gamesToReturn[index].game.id;
-
+        joinGame: function (index) {
             fetch("/api/joinGame", {
                 credentials: 'include',
                 method: 'POST',
@@ -204,19 +199,16 @@ var gameInfo = new Vue({
                     'Accept': 'application/json',
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
-                body: 'gameId=' + gameId
+                body: 'gameId=' + this.gamesToJoin[index].id
             })
                 .then(function (data) {
-                    console.log(data)
                     data.json()
                         .then(function (data) {
-                            console.log(data)
                             location.href = "/web/game.html?gp=" + data.gamePlayerId;
-                        })
+                        });
                 })
                 .catch(e => {
                     alert("Error: " + e);
-                    console.log(e);
                 });
         },
         returnToGame: function (index) {
@@ -252,4 +244,12 @@ function getCookie(cname) {
         }
     }
     return "";
+}
+
+function getValue(target) {
+    return document.getElementById(target).value;
+}
+
+function resetValue(target) {
+    document.getElementById(target).value = "";
 }

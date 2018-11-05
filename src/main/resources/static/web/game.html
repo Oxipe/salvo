@@ -12,19 +12,96 @@
         <title>Current Game</title>
     </head>
 
-    <body>
+    <body onkeyup.enter="rotateShip">
         
         <div id="gameInterface">
-            <p>{{player.user_name}} vs {{opponent.user_name}}</p>
-            <button v-if="!hasStarted" v-on:click="start()">Start</button>
-            <p v-if="hasStarted">Turn: {{currentTurn}}</p>
-            <button v-if="hasStarted" v-on:click="increaseTurn()">Turn up</button>
-            <p>Grid of {{player.user_name}}</p>
-            <table class="player_grid" id="player"></table>
-            <p>Grid of {{opponent.user_name}}</p>
-            <table class="opponent_grid" id="opponent"></table>
+            <div class="game_info">
+                <div class="player_name">
+                    <p>{{creator}}</p>
+                </div>
+                <div class="vs">
+                    <p>vs</p>
+                </div>
+                <div class="opponent_name">
+                    <p>{{opponent}}</p>
+                </div>
+            </div>
+            
+
+
+            <div class="assigned_grid">
+                <p>Grid of {{player}}</p>
+
+                <p v-if="gameStatus != 'Place Ships'">Grid of {{opponent.user_name}}</p>
+                <p v-if="gameStatus == 'Place Ships'">Prepare for battle!</p>
+            </div>
+
+
+
+            <div class="game_view" v-if="gameStatus == 'Place Ships'">
+                <div class="player_table">
+                    <table v-on:click="placeShip" class="player_grid" id="player"></table>
+                </div>
+
+                <div v-if="gameStatus == 'Place Ships'" class="table_with_ships">
+                    <table>
+                        <thead>
+                            <tr>
+                                <td class="table_header">Ship</td>
+                                <td class="table_header">Length</td>
+                                <td class="table_header">Placed</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(ship, index) in allShips">
+                                <td class="font" v-bind:id="ship.type" v-on:click="selectShip(ship.type)"><a v-on:mouseover="changePointer(ship.type)" v-on:mouseout="restoreColor(ship.type)">{{ship.type}}</a></td>
+                                <td class="font">{{ship.length}}</td>
+                                <td><p class="x" v-if="ship.isPlaced">V</p></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="selected_ship" v-if="gameStatus == 'Place Ships'">
+                        <p>{{selectedShip.type}}</p>
+                    </div>
+
+                    <div class="ship_layout" v-if="gameStatus == 'Place Ships'">
+                        <p class="ship_layout">Ships layout</p>
+                    </div>
+
+                    <div class="selected_ship_layout" v-if="gameStatus == 'Place Ships'">
+                        <img id="currentShip" v-bind:src="selectedShip.image"/>
+                    </div>
+
+
+                    <div>
+                        <button onclick="clearGrid()">Clear</button>
+                        <button onclick="submitPlacement()">Submit</button>
+                    </div>
+                </div>
+
+
+
+
+                <div class="opponent_table" v-if="gameStatus != 'Place Ships'">
+                    <table class="opponent_grid" id="opponent"></table>
+                </div>
+            </div>
+
+            <div class="placement_info" v-if="gameStatus == 'Place Ships'">
+                <ol>
+                    <li><p>1: Select a ship from the table</p></li>
+                    <li><p>2: Rotate the ship if needed by pressing the 'R' key</p></li>
+                    <li><p>3: Select a cell within the grid to place the ship</p></li>
+                    <li><p>4: Submit when all ships are placed</p></li>
+                </ol>
+            </div>
+
+
+
         </div>
 
+        <script src="scripts/main.js"></script>
         <script src="scripts/game.js"></script>
     </body>
 </html>
