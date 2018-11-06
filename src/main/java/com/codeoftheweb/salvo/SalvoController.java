@@ -27,6 +27,8 @@ public class SalvoController {
     private ScoreRepository scoreRepo;
     @Autowired
     private ShipRepository shipRepo;
+    @Autowired
+    private SalvoRepository salvoRepo;
     private PasswordEncoder passwordEncoder;
 
 
@@ -345,6 +347,42 @@ public class SalvoController {
             }
 
             dto.put("status", new ResponseEntity<>("Ships added.", HttpStatus.CREATED));
+            return dto;
+        }
+    }
+
+    @RequestMapping("/games/players/{gamePlayerId}/salvos")
+    private Map<String, Object> deploySalvos (@PathVariable("gamePlayerId") Long gamePlayerId,
+                                             @RequestParam String[][] details,
+                                             Authentication authentication) {
+        Map<String, Object> dto = new LinkedHashMap<>();
+
+        if (isGuest(authentication)) {
+            dto.put("status", new ResponseEntity<>("You are not allowed here.", HttpStatus.UNAUTHORIZED));
+            return dto;
+        } else if (gameplayerRepo.findOne(gamePlayerId) == null) {
+            dto.put("status", new ResponseEntity<>("Game player ID does not exist.", HttpStatus.UNAUTHORIZED));
+            return dto;
+        } else if (gameplayerRepo.findOne(gamePlayerId).getPlayer() != playerRepo.findByUserName(authentication.getName())) {
+            dto.put("status", new ResponseEntity<>("You don't have access to this game player.", HttpStatus.UNAUTHORIZED));
+            return dto;
+        } else if (!gameplayerRepo.findOne(gamePlayerId).getShips().isEmpty()) {
+            dto.put("status", new ResponseEntity<>("You already placed your salvos.", HttpStatus.FORBIDDEN));
+            return dto;
+        } else {
+            for (String[] detail: details) {
+                List<String> locations = new ArrayList<>();
+                Integer turn = gameplayerRepo.findOne(gamePlayerId).getGame().getTurn() + 1;
+
+                for (Integer i = 0; i < detail.length; i++) {
+                    locations.add(detail[i]);
+                }
+
+                salvoRepo.save(new Salvo(turn, gameplayerRepo.findOne(gamePlayerId), gameplayerRepo.findOne(gamePlayerId).getPlayer().getId(), locations));
+            }
+
+            dto.put("status", new ResponseEntity<>("Salvos added.", HttpStatus.CREATED));
+            dto.put("salvoes", details);
             return dto;
         }
     }

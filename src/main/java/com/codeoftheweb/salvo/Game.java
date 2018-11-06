@@ -17,6 +17,7 @@ public class Game {
     private String gameName;
     private String creator;
     private String opponent;
+    private Integer turn;
 
     @OneToMany(mappedBy = "game", fetch = FetchType.EAGER)
     Set<GamePlayer> gamePlayers;
@@ -32,6 +33,7 @@ public class Game {
         this.date = new Date();
         this.gameName = gameName;
         this.creator = creator;
+        this.turn = 0;
     }
 
     public Game (String gameName, String creator, String opponent) {
@@ -39,6 +41,7 @@ public class Game {
         this.gameName = gameName;
         this.creator = creator;
         this.opponent = opponent;
+        this.turn = 0;
     }
 
     //Getters & setters
@@ -78,6 +81,10 @@ public class Game {
     public String getOpponent() { return opponent; }
 
     public void setOpponent(String opponent) { this.opponent = opponent; }
+
+    public Integer getTurn() { return turn; }
+
+    public void setTurn(Integer turn) {  this.turn = turn; }
 
     //Methods
 

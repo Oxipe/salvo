@@ -32,13 +32,13 @@
             <div class="assigned_grid">
                 <p>Grid of {{player}}</p>
 
-                <p v-if="gameStatus != 'Place Ships'">Grid of {{opponent.user_name}}</p>
+                <p v-if="gameStatus != 'Place Ships'">Grid of {{opponent}}</p>
                 <p v-if="gameStatus == 'Place Ships'">Prepare for battle!</p>
             </div>
 
 
 
-            <div class="game_view" v-if="gameStatus == 'Place Ships'">
+            <div class="game_view">
                 <div class="player_table">
                     <table v-on:click="placeShip" class="player_grid" id="player"></table>
                 </div>
@@ -61,16 +61,16 @@
                         </tbody>
                     </table>
 
-                    <div class="selected_ship" v-if="gameStatus == 'Place Ships'">
+                    <div class="selected_ship">
                         <p>{{selectedShip.type}}</p>
                     </div>
 
-                    <div class="ship_layout" v-if="gameStatus == 'Place Ships'">
+                    <div class="ship_layout">
                         <p class="ship_layout">Ships layout</p>
                     </div>
 
-                    <div class="selected_ship_layout" v-if="gameStatus == 'Place Ships'">
-                        <img id="currentShip" v-bind:src="selectedShip.image"/>
+                    <div class="selected_ship_layout">
+                        <img id="currentShip" v-bind:src="selectedShip.image" />
                     </div>
 
 
@@ -81,10 +81,15 @@
                 </div>
 
 
+                <!--Voor wanneer alles goed werkt met het plaatsen van salvo's-->
+                <!--v-if="gameStatus != 'Place Ships'"-->
 
+                <div class="opponent_table">
+                    <table v-on:click="placeSalvos" class="opponent_grid" id="opponent"></table>
+                </div>
 
-                <div class="opponent_table" v-if="gameStatus != 'Place Ships'">
-                    <table class="opponent_grid" id="opponent"></table>
+                <div>
+                    <button onclick="submitSalvos()">Fire</button>
                 </div>
             </div>
 

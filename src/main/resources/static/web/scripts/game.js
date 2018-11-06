@@ -28,15 +28,6 @@ $.getJSON('/api/ships')
     });
 
 function submitPlacement() {
-    let map = new Map();
-
-    for (var i = 0; i < gameOverview.allShips.length; i++) {
-        map.set("type", gameOverview.allShips[i].type);
-        map.set("location", gameOverview.allShips[i].location);
-    }
-
-    console.log(map)
-
     if (gameOverview.placedShips !== 5) {
         alert("Place all ships before submitting.");
     } else {
@@ -57,6 +48,37 @@ function submitPlacement() {
             .then(response => response.json())
             .then(data => {
                 console.log(data)
+                gameOverview.gameStatus = "Battle";
+            })
+            .catch(e => {
+                alert("Error: " + e);
+            });
+    }
+}
+
+function submitSalvos() {
+    if (gameOverview.arrayOfSalvoLocations.length !== 5) {
+        alert("Place all salvos before submitting.");
+    } else {
+        fetch("/api/games/players/" + id.gp + "/salvos", {
+            credentials: 'include',
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body:
+                "details=" + gameOverview.arrayOfSalvoLocations[0] +
+                "&details=" + gameOverview.arrayOfSalvoLocations[1] +
+                "&details=" + gameOverview.arrayOfSalvoLocations[2] +
+                "&details=" + gameOverview.arrayOfSalvoLocations[3] +
+                "&details=" + gameOverview.arrayOfSalvoLocations[4]
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                gameOverview.arrayOfSalvoLocations = [];
+                gameOverview.placedSalvos = 0;
             })
             .catch(e => {
                 alert("Error: " + e);
@@ -80,14 +102,15 @@ var gameOverview = new Vue({
         playerData: [],
         allShips: [],
         arrayOfShipLocations: [],
+        arrayOfSalvoLocations: [],
         player: "",
         creator: "",
         opponent: "",
         gameStatus: "Place Ships", 
         selectedShip: {},
         horizontal: true,
-        //TEMP
-        placedShips: 0
+        placedShips: 0,
+        placedSalvos: 0
     },
     methods: {
         fillInterface: function () {
@@ -96,7 +119,9 @@ var gameOverview = new Vue({
             this.opponent = this.playerData.opponent;
         },
         placeShip: function (event) {
-            if (Object.keys(this.selectedShip).length === 0) {
+            if (this.gameStatus === "Battle") {
+                alert("You dont want to fire at you own ships.");
+            } else if (Object.keys(this.selectedShip).length === 0) {
                 alert("No ship selected");
 
             } else if (this.placedShips < 5 && !this.selectedShip.isPlaced) {
@@ -211,28 +236,44 @@ var gameOverview = new Vue({
             this.selectedShip = {};
             this.placedShips++;
         },
-        placeSalvos: function () {
-            var salvos = this.playerData.salvoes;
-            var cell;
-            //reconstruct to check on id instead of class
-            for (var i = 0; i < salvos.length; i++) {
-                if (salvos[i].turn === this.currentTurn) {
-                    for (var j = 0; j < salvos[i].locations.length; j++) {
-                        if (this.playerData.gamePlayers[0].player.id === this.playerData.salvoes[i].player) {
-                            cell = document.getElementById("player" + this.playerData.salvoes[i].locations[j]);
-                            console.log(this.playerData.salvoes[i].locations[j])
+        placeSalvos: function (event) {
+            console.log(event)
+            let cell;
+            let cellId;
+            if (event.target.nodeName === "TD") {
+                cell = getElement(event.target.id)
+                cellId = event.target.id.replace("opponent", "");
+            } else {
+                cell = getElement(event.target.parentNode.id);
+                cellId = event.target.parentNode.id.replace("opponent", "");
+            }
 
-                            cell.className === "grid_cell cell_with_ship" ? cell.setAttribute("class", "grid_cell cell_with_whip cell_hit") : cell.setAttribute("class", "grid_cell cell_miss");
-                        } else {
-                            cell = document.getElementById("opponent" + this.playerData.salvoes[i].locations[j]);
-                            console.log(this.playerData.salvoes[i].locations[j])
+            if (cell.hasChildNodes()) {
+                
+                if (this.arrayOfSalvoLocations.indexOf(cellId) !== -1) {
+                    cell.innerHTML = "";
+                    this.placedSalvos--;
+                    var pos = this.arrayOfSalvoLocations.indexOf(cellId);
 
-                            cell.className === "grid_cell cell_with_ship" ? cell.setAttribute("class", "grid_cell cell_with_whip cell_hit") : cell.setAttribute("class", "grid_cell cell_miss");
+                    this.arrayOfSalvoLocations.splice(this.arrayOfSalvoLocations.indexOf(cellId), 1);
+                } else {
+                    alert("Can not remove previous shot salvo.");
+                }
 
-                        }
-                    }
+            } else {
+                if (this.placedSalvos !== 5) {
+                    var div = createElement("div");
+                    div.setAttribute("class", "cell_salvo");
+                    cell.appendChild(div);
+                    this.placedSalvos++;
+                    this.arrayOfSalvoLocations.push(event.target.id.replace("opponent", ""));
+                } else {
+                    alert("You already place to maximum amount of salvos.");
                 }
             }
+            console.log(this.arrayOfSalvoLocations)
+
+
         },
         selectShip: function (ship) {
             for (var i = 0; i < this.allShips.length; i++) {
@@ -329,4 +370,3 @@ function clearGrid() {
     gameOverview.selectedShip = {};
     gameOverview.placedShips = 0;
 }
-

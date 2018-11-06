@@ -246,7 +246,7 @@ body {
 
 /*
 ==================================================
-    Body
+    Grid
 ==================================================
 */
 
@@ -272,7 +272,7 @@ body {
     border: 1px solid black;
 }
 
-/*border and background color is temporary*/
+
 .cell_with_ship {
     height: 24px;
     width: 24px;
@@ -281,9 +281,22 @@ body {
 }
 
 .cell_hit {
+    height: 24px;
+    width: 24px;
     background-color: darkred;
+    margin: auto;
 }
 
 .cell_miss {
+    height: 24px;
+    width: 24px;
     background-color: forestgreen;
+    margin: auto;
+}
+
+.cell_salvo {
+    height: 24px;
+    width: 24px;
+    background-color: orangered;
+    margin: auto;
 }
